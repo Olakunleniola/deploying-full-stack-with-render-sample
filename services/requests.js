@@ -1,11 +1,11 @@
 const fetch = require('node-fetch'); // import node-fetch (enables the fetch API to be used server-side)
 const { Pool } = require('pg'); // import node-postgres
 
-const pool = new Pool({ // create connection to database
+console.log(process.env.DATABASE_URL)
+
+const pool = new Pool({ // create connection to database  
   connectionString: process.env.DATABASE_URL,	// use DATABASE_URL environment variable from Render app 
-  ssl: {
-    rejectUnauthorized: false // don't check for SSL cert
-  }
+  ssl: false, // Disable SSL
 });
 
 const getAllActivities = (req, res) => {
@@ -28,7 +28,7 @@ const getAllActivities = (req, res) => {
 }
 
 const getSingleActivity = (req, res) => {
-  fetch('https://www.boredapi.com/api/activity') // fetch activity from bored API - https://www.boredapi.com/about
+  fetch('https://bored-api.appbrewery.com/random') // fetch activity from bored API - https://www.boredapi.com/about
     .then(data => data.json()) // return a promise containing the response
     .then(json => res.json(json)) // extract the JSON body content from the response (specifically the activity value) and sends it to the client
     .catch((err) => console.log(err)) // log errors to the console
